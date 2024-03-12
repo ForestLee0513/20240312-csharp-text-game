@@ -11,6 +11,7 @@ internal class Player: GameObject
         shape = 'P';
         x = newX;
         y = newY;
+        layer = 2;
     }
 
     ~Player() { }
@@ -22,7 +23,25 @@ internal class Player: GameObject
 
     public override void Update()
     {
-        base.Update();
+        if(Input.GetButton("Up"))
+        {
+            y--;
+        }
+
+        if (Input.GetButton("Down"))
+        {
+            y++;
+        }
+
+        if (Input.GetButton("Left"))
+        {
+            x--;
+        }
+
+        if (Input.GetButton("Right"))
+        { 
+            x++;
+        }
     }
 }
 

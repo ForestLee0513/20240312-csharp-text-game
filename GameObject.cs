@@ -3,10 +3,13 @@
     public int x;
     public int y;
     public char shape;
+    public int layer;
+
     public GameObject()
     {
         x = 0;
         y = 0;
+        layer = 0;
     }
 
     ~GameObject()
@@ -18,9 +21,9 @@
 
     }
 
-    public virtual void Update()
+    public virtual void Update() 
     {
-
+        
     }
 
     public virtual void Render()

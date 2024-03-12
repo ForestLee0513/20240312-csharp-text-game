@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Runtime.Intrinsics.Arm;
 
 internal class Engine
 {
@@ -17,24 +18,31 @@ internal class Engine
 
     public void Init()
     {
+        Input.Init();
+    }
 
-        string[] map = new string[10];
-        map[0] = "**********";
-        map[1] = "*P       *";
-        map[2] = "*        *";
-        map[3] = "*        *";
-        map[4] = "*   M    *";
-        map[5] = "*        *";
-        map[6] = "*        *";
-        map[7] = "*        *";
-        map[8] = "*       G*";
-        map[9] = "**********";
 
-        for (int y = 0; y < 10; ++y)
+    public void LoadScene(string sceneName)
+    {
+#if DEBUG
+        string dir = System.IO.Directory.GetParent(System.Environment.CurrentDirectory).Parent.FullName;
+        string[] map = File.ReadAllLines(dir + "/../data/" + sceneName + ".map");
+#else
+#endif
+        // 1
+        //string dir = System.IO.Directory.GetParent(System.Environment.CurrentDirectory).Parent.FullName;
+        //string[] map = File.ReadAllLines(dir + "/../data/level1.map");
+        // 2
+        //string[] map = File.ReadAllLines("./data/level1.map");
+        // 3
+        //string[] map = File.ReadAllLines("../../../data/" + sceneName + ".map");
+
+
+        for (int y = 0; y < map.Length; ++y)
         {
-            for(int x = 0; x < 10; ++x)
+            for (int x = 0; x < map[y].Length; ++x)
             {
-                if(map[y][x] == '*')
+                if (map[y][x] == '*')
                 {
                     Instantiate(new Wall(x, y));
                 }
@@ -56,14 +64,17 @@ internal class Engine
                 }
             }
         }
-        //Load();
+
+        // 레이어 순서에 따른 정렬
+        gameObjects.Sort((aGameObject, bGameObject) => aGameObject.layer - bGameObject.layer);
+        //gameObjects = gameObjects.OrderBy(gameObject => gameObject.layer).ToList();
     }
 
     public void Run()
     {
-        while(isRunning)
+        while (isRunning)
         {
-            Input();
+            ProcessInput();
             Update();
             Render();
         } // frame
@@ -86,19 +97,23 @@ internal class Engine
         return newGameObject;
     }
 
-    protected void Input()
+    protected void ProcessInput()
     {
-        Console.ReadKey();
+        Input.keyInfo = Console.ReadKey();
     }
 
     protected void Update()
     {
-
+        foreach (GameObject gameObject in gameObjects)
+        {
+            gameObject.Update();
+        }
     }
 
     protected void Render()
     {
-        foreach(GameObject gameObject in gameObjects)
+        Console.Clear();
+        foreach (GameObject gameObject in gameObjects)
         {
             gameObject.Render();
         }
