@@ -1,15 +1,28 @@
 ﻿class Input
 {
     public static ConsoleKeyInfo keyInfo;
-    public static Dictionary<string, ConsoleKey[]> inputMap = new Dictionary<string, ConsoleKey[]>();
+    public static Dictionary<string, KeyList> inputMap = new Dictionary<string, KeyList>();
+
+    public struct KeyList {
+        public ConsoleKey key;
+        public ConsoleKey altKey;
+        
+        public KeyList(ConsoleKey newKey, ConsoleKey newAltKey) {
+            key = newKey;
+            altKey = newAltKey;
+        }
+    }
 
     public static void Init()
     {
         // editor 설정
-        inputMap["Up"] = [ConsoleKey.W, ConsoleKey.UpArrow];
-        inputMap["Down"] = [ConsoleKey.S, ConsoleKey.DownArrow];
-        inputMap["Left"] = [ConsoleKey.A, ConsoleKey.LeftArrow];
-        inputMap["Right"] = [ConsoleKey.D, ConsoleKey.RightArrow];
+        inputMap = new Dictionary<string, KeyList>()
+        {
+            { "Up", new KeyList(ConsoleKey.W, ConsoleKey.UpArrow) },
+            { "Down", new KeyList(ConsoleKey.S, ConsoleKey.DownArrow) },
+            { "Left", new KeyList(ConsoleKey.A, ConsoleKey.LeftArrow) },
+            { "Right", new KeyList(ConsoleKey.D, ConsoleKey.RightArrow) },
+        };
     }
 
     public static bool GetKey(ConsoleKey checkKeyCode)
@@ -19,7 +32,7 @@
 
     public static bool GetButton(string buttonName)
     {
-        return inputMap[buttonName].Contains(keyInfo.Key);
+        return inputMap[buttonName].key == keyInfo.Key || inputMap[buttonName].altKey == keyInfo.Key;
     }
 
     public Input()
