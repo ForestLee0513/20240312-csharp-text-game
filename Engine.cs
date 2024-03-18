@@ -68,7 +68,11 @@ internal class Engine
                     newGameObject.transform.x = x;
                     newGameObject.transform.y = y;
                     newGameObject.AddComponent<SpriteRenderer>();
-                    newGameObject.GetComponent<SpriteRenderer>().shape = '*';
+                    SpriteRenderer? renderer = newGameObject.GetComponent<SpriteRenderer>();
+                    if(renderer != null)
+                    {
+                        renderer.shape = '*';
+                    }
                 }
                 else if (map[y][x] == 'P')
                 {
@@ -77,7 +81,12 @@ internal class Engine
                     newGameObject.transform.x = x;
                     newGameObject.transform.y = y;
                     newGameObject.AddComponent<SpriteRenderer>();
-                    newGameObject.GetComponent<SpriteRenderer>().shape = 'P';
+                    SpriteRenderer? renderer = newGameObject.GetComponent<SpriteRenderer>();
+                    if (renderer != null)
+                    {
+                        renderer.shape = 'P';
+                    }
+                    newGameObject.AddComponent<PlayerController>();
                 }
                 else if (map[y][x] == 'M')
                 {
@@ -86,7 +95,11 @@ internal class Engine
                     newGameObject.transform.x = x;
                     newGameObject.transform.y = y;
                     newGameObject.AddComponent<SpriteRenderer>();
-                    newGameObject.GetComponent<SpriteRenderer>().shape = 'M';
+                    SpriteRenderer? renderer = newGameObject.GetComponent<SpriteRenderer>();
+                    if (renderer != null)
+                    {
+                        renderer.shape = 'M';
+                    }
                 }
                 else if (map[y][x] == 'G')
                 {
@@ -95,7 +108,11 @@ internal class Engine
                     newGameObject.transform.x = x;
                     newGameObject.transform.y = y;
                     newGameObject.AddComponent<SpriteRenderer>();
-                    newGameObject.GetComponent<SpriteRenderer>().shape = 'G';
+                    SpriteRenderer? renderer = newGameObject.GetComponent<SpriteRenderer>();
+                    if (renderer != null)
+                    {
+                        renderer.shape = 'G';
+                    }
                 }
                 else if (map[y][x] == ' ')
                 {
@@ -103,8 +120,8 @@ internal class Engine
                     newGameObject.name = "Floor";
                     newGameObject.transform.x = x;
                     newGameObject.transform.y = y;
-                    newGameObject.AddComponent<SpriteRenderer>();
-                    newGameObject.GetComponent<SpriteRenderer>().shape = ' ';
+                    //newGameObject.AddComponent<SpriteRenderer>();
+                    //newGameObject.GetComponent<SpriteRenderer>().shape = ' ';
                 }
             }
         }
@@ -148,10 +165,13 @@ internal class Engine
 
     protected void Update()
     {
-        //foreach (GameObject gameObject in gameObjects)
-        //{
-        //    gameObject.Update();
-        //}
+        foreach (GameObject gameObjects in gameObjects)
+        {
+            foreach (Component component in gameObjects.components)
+            {
+                component.Update();
+            }
+        }
     }
 
     protected void Render()
@@ -161,7 +181,7 @@ internal class Engine
         {
             Renderer? renderer = gameObject.GetComponent<Renderer>();
 
-            if(renderer != null)
+            if (renderer != null)
             {
                 renderer.Render();
             }
