@@ -63,29 +63,54 @@ internal class Engine
             {
                 if (map[y][x] == '*')
                 {
-                    Instantiate(new Wall(x, y));
+                    GameObject newGameObject = Instantiate(new GameObject());
+                    newGameObject.name = "Wall";
+                    newGameObject.transform.x = x;
+                    newGameObject.transform.y = y;
+                    newGameObject.AddComponent<SpriteRenderer>();
+                    newGameObject.GetComponent<SpriteRenderer>().shape = '*';
                 }
                 else if (map[y][x] == 'P')
                 {
-                    Instantiate(new Player(x, y));
+                    GameObject newGameObject = Instantiate(new GameObject());
+                    newGameObject.name = "Player";
+                    newGameObject.transform.x = x;
+                    newGameObject.transform.y = y;
+                    newGameObject.AddComponent<SpriteRenderer>();
+                    newGameObject.GetComponent<SpriteRenderer>().shape = 'P';
                 }
                 else if (map[y][x] == 'M')
                 {
-                    Instantiate(new Monster(x, y));
+                    GameObject newGameObject = Instantiate(new GameObject());
+                    newGameObject.name = "Monster";
+                    newGameObject.transform.x = x;
+                    newGameObject.transform.y = y;
+                    newGameObject.AddComponent<SpriteRenderer>();
+                    newGameObject.GetComponent<SpriteRenderer>().shape = 'M';
                 }
                 else if (map[y][x] == 'G')
                 {
-                    Instantiate(new Goal(x, y));
+                    GameObject newGameObject = Instantiate(new GameObject());
+                    newGameObject.name = "Goal";
+                    newGameObject.transform.x = x;
+                    newGameObject.transform.y = y;
+                    newGameObject.AddComponent<SpriteRenderer>();
+                    newGameObject.GetComponent<SpriteRenderer>().shape = 'G';
                 }
                 else if (map[y][x] == ' ')
                 {
-                    Instantiate(new Floor(x, y));
+                    GameObject newGameObject = Instantiate(new GameObject());
+                    newGameObject.name = "Floor";
+                    newGameObject.transform.x = x;
+                    newGameObject.transform.y = y;
+                    newGameObject.AddComponent<SpriteRenderer>();
+                    newGameObject.GetComponent<SpriteRenderer>().shape = ' ';
                 }
             }
         }
 
         // 레이어 순서에 따른 정렬
-        gameObjects.Sort();
+        //gameObjects.Sort();
         //gameObjects = gameObjects.OrderBy(gameObject => gameObject.layer).ToList();
     }
 
@@ -123,10 +148,10 @@ internal class Engine
 
     protected void Update()
     {
-        foreach (GameObject gameObject in gameObjects)
-        {
-            gameObject.Update();
-        }
+        //foreach (GameObject gameObject in gameObjects)
+        //{
+        //    gameObject.Update();
+        //}
     }
 
     protected void Render()
@@ -134,7 +159,12 @@ internal class Engine
         Console.Clear();
         foreach (GameObject gameObject in gameObjects)
         {
-            gameObject.Render();
+            Renderer? renderer = gameObject.GetComponent<Renderer>();
+
+            if(renderer != null)
+            {
+                renderer.Render();
+            }
         }
     }
 }
