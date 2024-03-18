@@ -22,6 +22,7 @@
             { "Down", new KeyList(ConsoleKey.S, ConsoleKey.DownArrow) },
             { "Left", new KeyList(ConsoleKey.A, ConsoleKey.LeftArrow) },
             { "Right", new KeyList(ConsoleKey.D, ConsoleKey.RightArrow) },
+            { "Exit", new KeyList(ConsoleKey.Escape, ConsoleKey.None) }
         };
     }
 

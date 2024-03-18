@@ -1,11 +1,13 @@
-﻿using System.Data;
+﻿using System.ComponentModel;
+using System.Data;
 using System.Runtime.Intrinsics.Arm;
 
 internal class Engine
 {
     public List<GameObject> gameObjects;
     public bool isRunning;
-    public Engine()
+
+    protected Engine()
     {
         gameObjects = new List<GameObject>();
         isRunning = true;
@@ -16,9 +18,26 @@ internal class Engine
 
     }
 
+    static private Engine? instance;
+    static public Engine GetInstance()
+    {
+        if (instance == null)
+        {
+            instance = new Engine();
+        }
+
+        return instance;
+    }
+
+
     public void Init()
     {
         Input.Init();
+    }
+
+    public void Stop()
+    {
+        isRunning = false;
     }
 
 

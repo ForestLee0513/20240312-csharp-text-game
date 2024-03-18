@@ -42,6 +42,11 @@ internal class Player: GameObject
         { 
             x++;
         }
+        
+        if(Input.GetButton("Exit"))
+        {
+            Engine.GetInstance().Stop();
+        }    
     }
 }
 
