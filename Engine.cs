@@ -66,7 +66,7 @@ internal class Engine
         }
 
         // 레이어 순서에 따른 정렬
-        gameObjects.Sort((aGameObject, bGameObject) => aGameObject.layer - bGameObject.layer);
+        gameObjects.Sort();
         //gameObjects = gameObjects.OrderBy(gameObject => gameObject.layer).ToList();
     }
 

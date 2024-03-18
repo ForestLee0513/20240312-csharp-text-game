@@ -11,6 +11,7 @@ internal class Goal: GameObject
         shape = 'G';
         x = newX;
         y = newY;
+        layerOrder = 2000;
     }
 
     ~Goal() { }

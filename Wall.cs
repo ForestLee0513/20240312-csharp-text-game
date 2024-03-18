@@ -11,6 +11,7 @@ internal class Wall: GameObject
         shape = '*';
         x = newX;
         y = newY;
+        layerOrder = 2000;
     }
 
     ~Wall() { }

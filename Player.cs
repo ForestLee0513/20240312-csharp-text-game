@@ -11,7 +11,7 @@ internal class Player: GameObject
         shape = 'P';
         x = newX;
         y = newY;
-        layer = 2;
+        layerOrder = 3000 + 1;
     }
 
     ~Player() { }

@@ -9,6 +9,7 @@ internal class Monster: GameObject
     public Monster()
     {
         shape = 'M';
+        layerOrder = 3000;
     }
 
     public Monster(int newX, int newY)

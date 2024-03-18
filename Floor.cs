@@ -11,6 +11,7 @@ internal class Floor: GameObject
         shape = ' ';
         x = newX;
         y = newY;
+        layerOrder = 1;
     }
 
     ~Floor() { }
