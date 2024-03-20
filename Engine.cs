@@ -105,6 +105,7 @@ internal class Engine
                     renderer.renderOrder = RenderOrder.Monster;
                     Collider2D collider = newGameObject.AddComponent<Collider2D>();
                     collider.isTrigger = true;
+                    newGameObject.AddComponent<AIController>();
 
                 }
                 else if (map[y][x] == 'G')
