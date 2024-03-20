@@ -1,7 +1,11 @@
-﻿class PlayerController : Component
+﻿using System.Diagnostics;
+
+class PlayerController : Component
 {
     public override void Update()
     {
+        int oldX = transform.x;
+        int oldY = transform.y;
         if(transform == null)
         {
             return;
@@ -9,22 +13,22 @@
 
         if (Input.GetButton("Up"))
         {
-            transform.y--;
+            transform.Translate(0, -1);
         }
 
         if (Input.GetButton("Down"))
         {
-            transform.y++;
+            transform.Translate(0, 1);
         }
 
         if (Input.GetButton("Left"))
         {
-            transform.x--;
+            transform.Translate(-1, 0);
         }
 
         if (Input.GetButton("Right"))
         {
-            transform.x++;
+            transform.Translate(1, 0);
         }
 
         if (Input.GetButton("Exit"))
@@ -34,6 +38,40 @@
 
         transform.x = Math.Clamp(transform.x, 0, 80);
         transform.y = Math.Clamp(transform.y, 0, 80);
+
+        for (int i = 0; i < Engine.GetInstance().gameObjects.Count; i++)
+        {
+            GameObject findGameObject = Engine.GetInstance().gameObjects[i];
+
+            if(findGameObject.transform == transform)
+            {
+                continue;
+            }
+         
+            Collider2D? collider2D = findGameObject.GetComponent<Collider2D>();
+
+            if (collider2D != null)
+            {
+                if (collider2D.Check(gameObject) == true && collider2D.isTrigger == false)
+                {
+                    transform.x = oldX;
+                    transform.y = oldY;
+                    break;
+                }
+
+                else if(collider2D.Check(gameObject) == true && collider2D.isTrigger == true)
+                {
+                    if (findGameObject.name == "Monster")
+                    {
+                        Engine.GetInstance().Find("GameManager").GetComponent<GameManager>().isGameOver = true;
+                    }
+                    else if (findGameObject.name == "Goal")
+                    {
+                        Engine.GetInstance().Find("GameManager").GetComponent<GameManager>().isNextLevel = true;
+                    }
+                }
+            }
+        }
     }
 }
 

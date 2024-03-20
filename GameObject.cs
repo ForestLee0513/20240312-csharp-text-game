@@ -35,12 +35,14 @@ internal class GameObject
         return null;
     }
 
-    public void AddComponent<T>() where T : Component, new()
+    public T AddComponent<T>() where T : Component, new()
     {
         T newT = new T();
         newT.gameObject = this;
         newT.transform = transform;
         components.Add(newT);
+
+        return newT;
     }
 
     //public void RemoveComponent<T>(T component) where T: Component
