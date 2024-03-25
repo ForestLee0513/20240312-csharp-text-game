@@ -3,10 +3,12 @@ using System.Diagnostics;
 
 class PlayerController : Component
 {
+    SpriteRenderer? renderer;
     public override void Start()
     {
         base.Start();
-        
+        renderer = gameObject.GetComponent<SpriteRenderer>();
+        renderer.currentYIndex = 3;
     }
 
     public override void Update()
@@ -18,7 +20,6 @@ class PlayerController : Component
             return;
         }
 
-        SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
 
         if (Input.GetButton("Up"))
         {

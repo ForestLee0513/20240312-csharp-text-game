@@ -221,8 +221,14 @@ internal class Engine
 
     public void Run()
     {
+        bool isFirstStart = true;
         while (isRunning)
         {
+            if(isFirstStart)
+            {
+                Start();
+                isFirstStart = false;
+            }
             ProcessInput();
             Update();
             Render();
@@ -230,6 +236,13 @@ internal class Engine
             {
                 gameObjects.Clear();
                 LoadScene(nextSceneName);
+                foreach (GameObject gameObjects in gameObjects)
+                {
+                    foreach (Component component in gameObjects.components)
+                    {
+                        component.Start();
+                    }
+                }
                 isNextLoading = false;
                 nextSceneName = string.Empty;
             }
@@ -286,6 +299,21 @@ internal class Engine
             foreach (Component component in gameObjects.components)
             {
                 component.Update();
+            }
+        }
+
+        lastTime = SDL.SDL_GetTicks64();
+    }
+
+    protected void Start()
+    {
+        deltaTime = SDL.SDL_GetTicks64() - lastTime;
+
+        foreach (GameObject gameObjects in gameObjects)
+        {
+            foreach (Component component in gameObjects.components)
+            {
+                component.Start();
             }
         }
 
