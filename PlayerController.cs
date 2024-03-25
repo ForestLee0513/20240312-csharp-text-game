@@ -1,7 +1,14 @@
-﻿using System.Diagnostics;
+﻿using SDL2;
+using System.Diagnostics;
 
 class PlayerController : Component
 {
+    public override void Start()
+    {
+        base.Start();
+        
+    }
+
     public override void Update()
     {
         int oldX = transform.x;
@@ -11,24 +18,30 @@ class PlayerController : Component
             return;
         }
 
+        SpriteRenderer renderer = gameObject.GetComponent<SpriteRenderer>();
+
         if (Input.GetButton("Up"))
         {
             transform.Translate(0, -1);
+            renderer.currentYIndex = 2;
         }
 
         if (Input.GetButton("Down"))
         {
             transform.Translate(0, 1);
+            renderer.currentYIndex = 3;
         }
 
         if (Input.GetButton("Left"))
         {
             transform.Translate(-1, 0);
+            renderer.currentYIndex = 0;
         }
 
         if (Input.GetButton("Right"))
         {
             transform.Translate(1, 0);
+            renderer.currentYIndex = 1;
         }
 
         if (Input.GetButton("Exit"))

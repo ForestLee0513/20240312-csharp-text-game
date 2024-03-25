@@ -1,13 +1,12 @@
-﻿internal class Component
+﻿class Component
 {
     public Component()
     {
-        gameObject = null;
-        transform = null;
     }
 
     ~Component()
     {
+
     }
 
     public virtual void Start()
@@ -20,8 +19,9 @@
 
     }
 
-    // 내가 어디 속해 있는지 확인하는 용도
-    public GameObject? gameObject;
-    // 내가 속해있는 게임 오브젝트의 이동을 처리하기 위함.
-    public Transform? transform;
+    //내가 어디 속해 있는 확인 하는 용도
+    public GameObject gameObject;
+
+    //내가 속해 게임오브젝트의 이동을 처리 하기
+    public Transform transform;
 }

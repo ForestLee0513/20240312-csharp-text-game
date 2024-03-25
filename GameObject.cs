@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.Design.Serialization;
-
-internal class GameObject
+﻿
+class GameObject
 {
     public Transform transform;
+
     public List<Component> components;
+
     public string name;
 
     public GameObject()
@@ -18,7 +19,7 @@ internal class GameObject
     public T? GetComponent<T>() where T : Component
     {
         int findIndex = -1;
-        for(int i = 0; i < components.Count; ++i)
+        for (int i = 0; i < components.Count; ++i)
         {
             if (components[i] is T)
             {
@@ -27,12 +28,14 @@ internal class GameObject
             }
         }
 
-        if(findIndex > 0)
+        if (findIndex > 0)
         {
             return (T)components[findIndex];
         }
-
-        return null;
+        else
+        {
+            return null;
+        }
     }
 
     public T AddComponent<T>() where T : Component, new()
@@ -45,7 +48,7 @@ internal class GameObject
         return newT;
     }
 
-    //public void RemoveComponent<T>(T component) where T: Component
+    //public void RemoveComponent<T>() where T : Component
     //{
     //    for (int i = 0; i < components.Count; ++i)
     //    {
@@ -56,4 +59,5 @@ internal class GameObject
     //        }
     //    }
     //}
+
 }
