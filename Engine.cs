@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using SDL2;
+using System.ComponentModel;
 using System.Data;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.X509Certificates;
@@ -9,6 +10,10 @@ internal class Engine
     public bool isRunning;
     public bool isNextLoading = false;
     public string nextSceneName = string.Empty;
+
+    public IntPtr myWindow;
+    public IntPtr myRenderer;
+    public SDL.SDL_Event myEvent;
 
     public void NextLoadScene(string _nextSceneName)
     {
@@ -41,6 +46,21 @@ internal class Engine
 
     public void Init()
     {
+        if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) < 0)
+        {
+            Console.WriteLine("Init fail");
+            return;
+        }
+
+        myWindow = SDL.SDL_CreateWindow("2D Engine", 100, 100, 800, 600, SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN);
+        myRenderer = SDL.SDL_CreateRenderer(
+            myWindow,
+            -1,
+            SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED |
+            SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC |
+            SDL.SDL_RendererFlags.SDL_RENDERER_TARGETTEXTURE
+            );
+
         Input.Init();
     }
 
@@ -185,6 +205,10 @@ internal class Engine
     public void Term()
     {
         gameObjects.Clear();
+
+        SDL.SDL_DestroyWindow(myWindow);
+        SDL.SDL_DestroyRenderer(myRenderer);
+        SDL.SDL_Quit();
     }
 
     //public GameObject Instanticate<T>() where T : GameObject
@@ -202,6 +226,7 @@ internal class Engine
 
     protected void ProcessInput()
     {
+        SDL.SDL_PollEvent(out myEvent);
         Input.keyInfo = Console.ReadKey();
     }
 
@@ -232,6 +257,7 @@ internal class Engine
     protected void Render()
     {
         Console.Clear();
+
         foreach (GameObject gameObject in gameObjects)
         {
             Renderer? renderer = gameObject.GetComponent<Renderer>();
